@@ -1,5 +1,12 @@
-import GameSavingLoader from "./GameSavingLoader";
+import GameSavingLoader from './GameSavingLoader';
 
-console.log("worked");
-
-GameSavingLoader.load().then((saving) => console.log(saving));
+GameSavingLoader.load().then(
+  (saving) => {
+    console.log(saving);
+    // saving объект класса GameSaving
+  },
+  (error) => {
+    console.log(error);
+    // ...
+  },
+);

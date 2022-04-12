@@ -1,29 +1,18 @@
-import read from "./reader";
-import json from "./parser";
-import GameSaving from "./Gamesaving";
+import read from './reader';
+import json from './parser';
+import GameSaving from './GameSaving';
+import UserInfo from './userInfo';
 
 export default class GameSavingLoader {
-  static load() {
-    return read()
-      .then((res) => json(res))
-      .then((res) => new GameSaving(JSON.parse(res)));
+  static async load() {
+    const data = await read();
+    const parsedData = JSON.parse(await json(data));
+    const userInfo = new UserInfo(
+      parsedData.userInfo.id,
+      parsedData.userInfo.name,
+      parsedData.userInfo.level,
+      parsedData.userInfo.points,
+    );
+    return new GameSaving(parsedData.id, parsedData.created, userInfo);
   }
 }
-
-/* export default class GameSavingLoader {
-  static load() {
-    return read()
-      .then((response) => {
-        console.log(response);
-        return JSON.parse(response);
-      })
-      .then((result) => {
-        console.log(new GameSaving(result));
-        return new GameSaving(result);
-      })
-      .catch((err) => {
-        throw new Error(err.message);//ошибка c JSON
-      });
-  }
-}
-*/
